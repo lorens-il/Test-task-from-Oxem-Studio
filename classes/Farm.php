@@ -1,23 +1,32 @@
 <?php 
     namespace classes;
-    // $animals = [
-    //         "cows" =>["ids"=>[], "quantity"=>0],
-    //         "chickens"=>["ids"=>[], "quantity"=>0]
-    // ];
 
     class Farm {
         
-        public $animals = [];
-        public $product; // eggs milk []
-        /*
-                м сбора
-                м подсчёта
-                м добавления ****
-                статик м присв id каждому животному
-        */
-    
+        private $animals = [];
+        private $products = [];
 
-        // добавление животных
+        // Возвращает $animals
+        public function getAnimals() {
+            return $this->animals;
+        }
+
+        // Вывод количества каждого типа животных
+        public function printAnimalsQuantityEachType() {
+            foreach($this->animals as $k => $v) {
+                echo "$k: {$v["quantity"]}\n";
+            }
+        }
+
+        // Генерируют id для каждого животного и возвращает массив с id
+        private function getGenerateIds($idsArray, $quantity, $className) {
+            for ($i=0; $i<$quantity; $i++) { 
+                array_push($idsArray, uniqid($className));
+            }
+            return $idsArray;
+        }
+
+        // Добавление животных
         public function addAnimals($quantity, $className) {
             if(!array_key_exists($className, $this->animals)) {
                 $this->animals[$className] = [];
@@ -30,22 +39,19 @@
             }
 
             $this->animals[$className]["quantity"] += $quantity;
-            $this->animals[$className]["ids"] = $this->generateIds($this->animals[$className]["ids"], $quantity, $className);
+            $this->animals[$className]["ids"] = $this->getGenerateIds($this->animals[$className]["ids"], $quantity, $className);
             
         }
-
-        private function generateIds($idsArray, $quantity, $className) {
-            for ($i=0; $i<$quantity; $i++) { 
-                array_push($idsArray, uniqid($className));
+        
+        // Подсчёт количества определённой продукции за 7 дней
+        public function collectedGoods($classAnimal, $minProductsDay, $maxProductsDay) {
+            $this->products[$classAnimal::getProductType()] = 0;
+            for ($i=0; $i<7; $i++) { 
+                $this->products[$classAnimal::getProductType()] += 
+                    $classAnimal->getProductsDay($minProductsDay, $maxProductsDay) * 
+                    $this->animals[$classAnimal::getAnimalType()]["quantity"];
             }
-            return $idsArray;
-        }
-
-        public function collectedGoods() {
-
+            echo "За 7 дней собрано {$classAnimal::getProductType()}: {$this->products[$classAnimal::getProductType()]}\n";
         }
 
     }
-
-
-?>

@@ -2,10 +2,11 @@
     namespace classes;
 
     class Animal {
-        public $quantity;
+        private $quantity;
 
         public function getProductsDay($min, $max) {
             $this->quantity = mt_rand($min, $max);
+            return $this->quantity;
         }
 
     }
