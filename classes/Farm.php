@@ -46,10 +46,11 @@
         // Подсчёт количества определённой продукции за 7 дней
         public function collectedGoods($classAnimal, $minProductsDay, $maxProductsDay) {
             $this->products[$classAnimal::getProductType()] = 0;
-            for ($i=0; $i<7; $i++) { 
-                $this->products[$classAnimal::getProductType()] += 
-                    $classAnimal->getProductsDay($minProductsDay, $maxProductsDay) * 
-                    $this->animals[$classAnimal::getAnimalType()]["quantity"];
+            $quantityProduct = $this->animals[$classAnimal::getAnimalType()]["quantity"];
+            for ($i=0; $i<7; $i++) {
+                for ($j=0; $j<$quantityProduct; $j++) {
+                    $this->products[$classAnimal::getProductType()] += $classAnimal->getProductsDay($minProductsDay, $maxProductsDay);
+                }
             }
             echo "За 7 дней собрано {$classAnimal::getProductType()}: {$this->products[$classAnimal::getProductType()]}\n";
         }

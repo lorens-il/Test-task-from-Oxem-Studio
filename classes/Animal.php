@@ -5,7 +5,7 @@
         private $quantity;
 
         public function getProductsDay($min, $max) {
-            $this->quantity = mt_rand($min, $max);
+            $this->quantity = random_int($min, $max);
             return $this->quantity;
         }
 
