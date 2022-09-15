@@ -8,11 +8,11 @@
     class Farm {
         
         public $animals = [];
-        public $product;
+        public $product; // eggs milk []
         /*
                 м сбора
                 м подсчёта
-               м добавления ****
+                м добавления ****
                 статик м присв id каждому животному
         */
     
@@ -39,6 +39,10 @@
                 array_push($idsArray, uniqid($className));
             }
             return $idsArray;
+        }
+
+        public function collectedGoods() {
+
         }
 
     }
